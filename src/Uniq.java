@@ -4,34 +4,41 @@ import java.util.Scanner;
 public class Uniq {
 
     // Метод для суммы последних двух цифр числа
-    public int sumLastNums(int x) {
-        int lastDigit = x % 10; // Получаем последнюю цифру
-        int secondLastDigit = (x / 10) % 10; // Получаем предпоследнюю цифру
-        return lastDigit + secondLastDigit; // Возвращаем сумму
+    private int sumLastNums(int x) {
+        int twoLastDigits = x % 100; // Получаем последние 2 цифры
+        return twoLastDigits % 10 + (twoLastDigits / 10) % 10; // Возвращаем сумму
     }
 
     // Метод для проверки, положительное ли число
-    public boolean isPositive(int x) {
+    private boolean isPositive(int x) {
         return x > 0; // Возвращаем true, если число положительное
     }
 
     // Метод для проверки, является ли символ заглавной буквой
-    public boolean isUpperCase(char x) {
+    private boolean isUpperCase(char x) {
         return x >= 'A' && x <= 'Z'; // Проверяем диапазон заглавных букв
     }
 
     // Метод для проверки, делится ли одно число на другое
-    public boolean isDivisor(int a, int b) {
+    private boolean isDivisor(int a, int b) {
         return b != 0 && (a % b == 0 || b % a == 0); // Проверяем делимость
     }
 
     // Метод для сложения единичных разрядов двух чисел
-    public int lastNumSum(int a, int b) {
+    private int lastNumSum(int a, int b) {
         return (a % 10) + (b % 10); // Возвращаем сумму последних цифр
     }
 
+    // Метод безопасного деления
+    private double safeDiv(int x, int y) {
+        if (y == 0) {
+            return 0; // Возвращаем 0, если деление на ноль
+        }
+        return (double) x / y; // Возвращаем результат деления
+    }
+
     // Метод для строки сравнения
-    public String makeDecision(int x, int y) {
+    private String makeDecision(int x, int y) {
         if (x > y) {
             return x + " > " + y;
         } else if (x < y) {
@@ -42,12 +49,12 @@ public class Uniq {
     }
 
     // Метод для проверки суммы трех чисел
-    public boolean sum3(int x, int y, int z) {
+    private boolean sum3(int x, int y, int z) {
         return (x + y == z) || (x + z == y) || (y + z == x); // Проверяем сумму
     }
 
     // Метод для формирования строки с возрастом
-    public String age(int x) {
+    private String age(int x) {
         String ageString = x + " ";
         int lastDigit = x % 10;
         int lastTwoDigits = x % 100;
@@ -64,7 +71,7 @@ public class Uniq {
     }
 
     // Метод для вывода дней недели
-    public void printDays(String x) {
+    private void printDays(String x) {
         switch (x.toLowerCase()) {
             case "понедельник" ->
                     System.out.println("понедельник\nвторник\nсреда\nчетверг\nпятница\nсуббота\nвоскресенье");
@@ -79,7 +86,7 @@ public class Uniq {
     }
 
     // Метод для вывода чисел от x до 0
-    public String reverseListNums(int x) {
+    private String reverseListNums(int x) {
         StringBuilder result = new StringBuilder();
         for (int i = x; i >= 0; i--) {
             result.append(i).append(" "); // Добавляем числа в строку
@@ -88,7 +95,7 @@ public class Uniq {
     }
 
     // Метод для возведения числа в степень
-    public int pow(int x, int y) {
+    private int pow(int x, int y) {
         int result = 1;
         for (int i = 0; i < y; i++) {
             result *= x; // Умножаем x на себя y раз
@@ -97,7 +104,7 @@ public class Uniq {
     }
 
     // Метод для проверки, все ли цифры числа одинаковы
-    public boolean equalNum(int x) {
+    private boolean equalNum(int x) {
         int firstDigit = x % 10; // Получаем первую цифру
         while (x > 0) {
             if (x % 10 != firstDigit) {
@@ -109,7 +116,7 @@ public class Uniq {
     }
 
     // Метод для вывода левого треугольника
-    public void leftTriangle(int x) {
+    private void leftTriangle(int x) {
         for (int i = 1; i <= x; i++) {
             for (int j = 0; j < i; j++) {
                 System.out.print("*"); // Выводим звёздочки
@@ -119,7 +126,7 @@ public class Uniq {
     }
 
     // Метод для игры "Угадайка"
-    public void guessGame() {
+    private void guessGame() {
         Random random = new Random();
         int numberToGuess = random.nextInt(10); // Генерируем случайное число от 0 до 9
         Scanner scanner = new Scanner(System.in);
@@ -142,7 +149,7 @@ public class Uniq {
     }
 
     // Метод для поиска последнего вхождения числа в массив
-    public int findLast(int[] arr, int x) {
+    private int findLast(int[] arr, int x) {
         for (int i = arr.length - 1; i >= 0; i--) {
             if (arr[i] == x) {
                 return i; // Возвращаем индекс последнего вхождения
@@ -152,7 +159,7 @@ public class Uniq {
     }
 
     // Метод для добавления элемента в массив по заданной позиции
-    public int[] add(int[] arr, int x, int pos) {
+    private int[] add(int[] arr, int x, int pos) {
         int[] newArr = new int[arr.length + 1]; // Создаем новый массив на 1 элемент больше
         for (int i = 0; i < newArr.length; i++) {
             if (i < pos) {
@@ -167,7 +174,7 @@ public class Uniq {
     }
 
     // Метод для реверсирования массива
-    public void reverse(int[] arr) {
+    private void reverse(int[] arr) {
         int left = 0; // Индекс начала
         int right = arr.length - 1; // Индекс конца
         while (left < right) { // Пока индексы не пересеклись
@@ -182,7 +189,7 @@ public class Uniq {
     }
 
     // Метод для объединения двух массивов
-    public int[] concat(int[] arr1, int[] arr2) {
+    private int[] concat(int[] arr1, int[] arr2) {
         int[] newArr = new int[arr1.length + arr2.length]; // Создаем новый массив
         // Копируем элементы первого массива
         System.arraycopy(arr1, 0, newArr, 0, arr1.length);
@@ -192,7 +199,7 @@ public class Uniq {
     }
 
     // Метод для удаления отрицательных чисел из массива
-    public int[] deleteNegative(int[] arr) {
+    private int[] deleteNegative(int[] arr) {
         // Сначала считаем количество неотрицательных чисел
         int count = 0;
         for (int num : arr) {
@@ -227,29 +234,38 @@ public class Uniq {
             System.out.println("3. Большая буква");
             System.out.println("4. Делитель");
             System.out.println("5. Сумма разрядов");
-            System.out.println("6. Сравнение чисел");
-            System.out.println("7. Проверка суммы трех чисел");
-            System.out.println("8. Возраст");
-            System.out.println("9. Вывод дней недели");
-            System.out.println("10. Числа наоборот");
-            System.out.println("11. Степень числа");
-            System.out.println("12. Одинаковость цифр");
-            System.out.println("13. Левый треугольник");
-            System.out.println("14. Угадайка");
-            System.out.println("15. Поиск последнего значения в массиве");
-            System.out.println("16. Добавление в массив");
-            System.out.println("17. Реверс массива");
-            System.out.println("18. Объединение массивов");
-            System.out.println("19. Удалить негатив");
+            System.out.println("6. Безопасное деление");
+            System.out.println("7. Сравнение чисел");
+            System.out.println("8. Проверка суммы трех чисел");
+            System.out.println("9. Возраст");
+            System.out.println("10. Вывод дней недели");
+            System.out.println("11. Числа наоборот");
+            System.out.println("12. Степень числа");
+            System.out.println("13. Одинаковость цифр");
+            System.out.println("14. Левый треугольник");
+            System.out.println("15. Угадайка");
+            System.out.println("16. Поиск последнего значения в массиве");
+            System.out.println("17. Добавление в массив");
+            System.out.println("18. Реверс массива");
+            System.out.println("19. Объединение массивов");
+            System.out.println("20. Удалить негатив");
             System.out.println("0. Выход");
             System.out.print("Введите номер задачи: ");
             int choice = scanner.nextInt();
 
             switch (choice) {
                 case 1 -> { // Сумма последних двух цифр
-                    System.out.print("Введите число: ");
-                    int num1 = scanner.nextInt();
-                    System.out.println("Сумма последних двух цифр: " + solver.sumLastNums(num1));
+                    int num;
+                    do {
+                        System.out.println("Введите число (не менее двух цифр):");
+                        num = scanner.nextInt();
+                        if (num < 10) {
+                            System.out.println("Число должно быть положительным и иметь минимум 2 цифры.");
+                        }
+                    } while (num < 10); // Повторяем запрос, пока число не будет корректным
+
+                    int result = solver.sumLastNums(num);
+                    System.out.println("Сумма двух последних цифр: " + result);
                 }
                 case 2 -> { // Положительное число
                     System.out.print("Введите число: ");
@@ -273,56 +289,63 @@ public class Uniq {
                     int b1 = scanner.nextInt();
                     System.out.println("Сумма разрядов: " + solver.lastNumSum(a1, b1));
                 }
-                case 6 -> { // Сравнение чисел
+                case 6 -> { // Безопасное деление
+                    System.out.println("Введите первое число (x):");
+                    int x = scanner.nextInt();
+                    System.out.println("Введите второе число (y):");
+                    int y = scanner.nextInt();
+                    System.out.println("Результат безопасного деления: " + solver.safeDiv(x, y));
+                }
+                case 7 -> { // Сравнение чисел
                     System.out.print("Введите два числа (x y): ");
                     int x1 = scanner.nextInt();
                     int y1 = scanner.nextInt();
                     System.out.println("Сравнение: " + solver.makeDecision(x1, y1));
                 }
-                case 7 -> { // Проверка суммы трех чисел
+                case 8 -> { // Проверка суммы трех чисел
                     System.out.print("Введите три числа (x y z): ");
                     int x2 = scanner.nextInt();
                     int y2 = scanner.nextInt();
                     int z2 = scanner.nextInt();
                     System.out.println("Сумма трех чисел: " + solver.sum3(x2, y2, z2));
                 }
-                case 8 -> { // Возраст
+                case 9 -> { // Возраст
                     System.out.print("Введите возраст: ");
                     int ageInput = scanner.nextInt();
                     System.out.println("Возраст: " + solver.age(ageInput));
                 }
-                case 9 -> { // Вывод дней недели
+                case 10 -> { // Вывод дней недели
                     System.out.print("Введите день недели: ");
                     String day = scanner.next();
                     solver.printDays(day);
                 }
-                case 10 -> { // Числа наоборот
+                case 11 -> { // Числа наоборот
                     System.out.print("Введите число: ");
                     int numReverse = scanner.nextInt();
                     System.out.println("Числа наоборот: " + solver.reverseListNums(numReverse));
                 }
-                case 11 -> { // Степень числа
+                case 12 -> { // Степень числа
                     System.out.print("Введите число (x) и степень (y): ");
                     int x3 = scanner.nextInt();
                     int y3 = scanner.nextInt();
                     System.out.println("Результат: " + solver.pow(x3, y3));
                 }
-                case 12 -> { // Одинаковость цифр
+                case 13 -> { // Одинаковость цифр
                     System.out.print("Введите число: ");
                     int numEqual = scanner.nextInt();
                     System.out.println("Одинаковость: " + solver.equalNum(numEqual));
                 }
-                case 13 -> { // Левый треугольник
+                case 14 -> { // Левый треугольник
                     System.out.print("Введите высоту треугольника: ");
                     int h = scanner.nextInt();
                     System.out.println("Левый треугольник: ");
                     solver.leftTriangle(h);
                 }
-                case 14 -> { // Угадайка
+                case 15 -> { // Угадайка
                     System.out.println("Игра 'Угадайка': ");
                     solver.guessGame();
                 }
-                case 15 -> { // Поиск последнего значения в массиве
+                case 16 -> { // Поиск последнего значения в массиве
                     System.out.print("Введите размер массива: ");
                     int size = scanner.nextInt();
                     int[] arrFind = new int[size];
@@ -334,7 +357,7 @@ public class Uniq {
                     int searchNum = scanner.nextInt();
                     System.out.println("Последнее вхождение: " + solver.findLast(arrFind, searchNum));
                 }
-                case 16 -> { // Добавление в массив
+                case 17 -> { // Добавление в массив
                     System.out.print("Введите размер массива: ");
                     int arrSize = scanner.nextInt();
                     int[] arrAdd = new int[arrSize];
@@ -353,7 +376,7 @@ public class Uniq {
                     }
                     System.out.println();
                 }
-                case 17 -> { // Реверс массива
+                case 18 -> { // Реверс массива
                     System.out.print("Введите размер массива: ");
                     int revSize = scanner.nextInt();
                     int[] arrRev = new int[revSize];
@@ -368,7 +391,7 @@ public class Uniq {
                     }
                     System.out.println();
                 }
-                case 18 -> { // Объединение массивов
+                case 19 -> { // Объединение массивов
                     System.out.print("Введите размер первого массива: ");
                     int size1 = scanner.nextInt();
                     int[] arr1 = new int[size1];
@@ -390,7 +413,7 @@ public class Uniq {
                     }
                     System.out.println();
                 }
-                case 19 -> { // Удалить негатив
+                case 20 -> { // Удалить негатив
                     System.out.print("Введите размер массива: ");
                     int negSize = scanner.nextInt();
                     int[] arrNeg = new int[negSize];
