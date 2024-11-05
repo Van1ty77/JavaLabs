@@ -55,19 +55,19 @@ public class Uniq {
 
     // Метод для формирования строки с возрастом
     private String age(int x) {
-        String ageString = x + " ";
+        String age = x + " ";
         int lastDigit = x % 10;
         int lastTwoDigits = x % 100;
 
         if (lastDigit == 1 && lastTwoDigits != 11) {
-            ageString += "год";
+            age += "год";
         } else if ((lastDigit >= 2 && lastDigit <= 4) && (lastTwoDigits < 12 || lastTwoDigits > 14)) {
-            ageString += "года";
+            age += "года";
         } else {
-            ageString += "лет";
+            age += "лет";
         }
 
-        return ageString; // Возвращаем строку с возрастом
+        return age; // Возвращаем строку с возрастом
     }
 
     // Метод для вывода дней недели
@@ -88,11 +88,22 @@ public class Uniq {
     // Метод для вывода чисел от x до 0
     private String reverseListNums(int x) {
         StringBuilder result = new StringBuilder();
-        for (int i = x; i >= 0; i--) {
-            result.append(i).append(" "); // Добавляем числа в строку
+
+        if (x >= 0) {
+            // Для положительных чисел выполняем обычное обратное перечисление
+            for (int i = x; i >= 0; i--) {
+                result.append(i).append(" ");
+            }
+        } else {
+            // Для отрицательных чисел начинаем с x и идем до 0
+            for (int i = x; i <= 0; i++) {
+                result.append(i).append(" ");
+            }
         }
-        return result.toString().trim(); // Возвращаем строку
+
+        return result.toString().trim(); // Возвращаем строку без лишнего пробела в конце
     }
+
 
     // Метод для возведения числа в степень
     private int pow(int x, int y) {
@@ -131,21 +142,24 @@ public class Uniq {
         int numberToGuess = random.nextInt(10); // Генерируем случайное число от 0 до 9
         Scanner scanner = new Scanner(System.in);
         int attempts = 0;
-        int userGuess;
+        int userGuess; // Инициализация переменной для хранения числа пользователя
 
         do {
             System.out.print("Введите число от 0 до 9: ");
-            userGuess = scanner.nextInt(); // Считываем число
+
+            // Используем метод inputInt для проверки ввода
+            userGuess = inputInt(scanner);
             attempts++; // Увеличиваем счетчик попыток
 
             if (userGuess == numberToGuess) {
-                System.out.println("Вы угадали!"); // Угадали
+                System.out.println("Вы угадали!");
             } else {
-                System.out.println("Вы не угадали, попробуйте снова."); // Не угадали
+                System.out.println("Вы не угадали, попробуйте снова.");
             }
+
         } while (userGuess != numberToGuess);
 
-        System.out.println("Вы отгадали число за " + attempts + " попытки(ок)."); // Выводим количество попыток
+        System.out.println("Вы отгадали число за " + attempts + " попытки(ок).");
     }
 
     // Метод для поиска последнего вхождения числа в массив
@@ -160,18 +174,28 @@ public class Uniq {
 
     // Метод для добавления элемента в массив по заданной позиции
     private int[] add(int[] arr, int x, int pos) {
-        int[] newArr = new int[arr.length + 1]; // Создаем новый массив на 1 элемент больше
+        // Проверка, чтобы не выйти за пределы массива
+        if (pos < 0 || pos > arr.length) {
+            System.out.println("Позиция вне границ массива.");
+            return null; // Возвращаем null в случае ошибки
+        }
+
+        // Создаем новый массив на 1 элемент больше
+        int[] newArr = new int[arr.length + 1];
+
         for (int i = 0; i < newArr.length; i++) {
             if (i < pos) {
                 newArr[i] = arr[i]; // Копируем элементы до позиции
             } else if (i == pos) {
-                newArr[i] = x; // Вставляем новый элемент
+                newArr[i] = x; // Вставляем новый элемент на указанную позицию
             } else {
-                newArr[i] = arr[i - 1]; // Копируем остальные элементы
+                newArr[i] = arr[i - 1]; // Копируем оставшиеся элементы
             }
         }
+
         return newArr; // Возвращаем новый массив
     }
+
 
     // Метод для реверсирования массива
     private void reverse(int[] arr) {
@@ -222,6 +246,28 @@ public class Uniq {
         return newArr; // Возвращаем новый массив без отрицательных чисел
     }
 
+    // Метод для проверки ввода числа
+    private int inputInt(Scanner scanner) {
+        while (!scanner.hasNextInt()) {
+            System.out.println("Пожалуйста, введите целое число.");
+            scanner.next(); // Очищаем некорректный ввод
+        }
+        return scanner.nextInt();
+    }
+
+    // Метод для проверки ввода размера массива
+    private int inputArraySize(Scanner scanner) {
+        int size;
+        do {
+            System.out.print("Введите размер массива (положительное число): ");
+            size = inputInt(scanner); // Используем метод для проверки ввода числа
+            if (size <= 0) {
+                System.out.println("Размер массива должен быть больше 0.");
+            }
+        } while (size <= 0);
+        return size;
+    }
+
     // Основной метод для запуска программы
     public static void main(String[] args) {
         Uniq solver = new Uniq();
@@ -251,160 +297,174 @@ public class Uniq {
             System.out.println("20. Удалить негатив");
             System.out.println("0. Выход");
             System.out.print("Введите номер задачи: ");
-            int choice = scanner.nextInt();
+            int choice = solver.inputInt(scanner);
 
             switch (choice) {
-                case 1 -> { // Сумма последних двух цифр
+                case 1 -> {
                     int num;
                     do {
                         System.out.println("Введите число (не менее двух цифр):");
-                        num = scanner.nextInt();
+                        num = solver.inputInt(scanner);
                         if (num < 10) {
                             System.out.println("Число должно быть положительным и иметь минимум 2 цифры.");
                         }
-                    } while (num < 10); // Повторяем запрос, пока число не будет корректным
-
+                    } while (num < 10);
                     int result = solver.sumLastNums(num);
                     System.out.println("Сумма двух последних цифр: " + result);
                 }
-                case 2 -> { // Положительное число
+                case 2 -> {
                     System.out.print("Введите число: ");
-                    int num2 = scanner.nextInt();
+                    int num2 = solver.inputInt(scanner);
                     System.out.println("Положительное: " + solver.isPositive(num2));
                 }
-                case 3 -> { // Большая буква
-                    System.out.print("Введите символ: ");
-                    char charInput = scanner.next().charAt(0);
+                case 3 -> {
+                    System.out.print("Введите латинскую заглавную букву: ");
+                    String input = scanner.next();  // Считываем строку
+                    while (input.length() != 1 || !Character.isLetter(input.charAt(0))) {  // Проверяем, что введен 1 символ и это буква
+                        System.out.println("Пожалуйста, введите один символ, который является латинской буквой.");
+                        input = scanner.next();  // Повторный ввод
+                    }
+                    char charInput = input.charAt(0);  // Получаем символ
                     System.out.println("Большая буква: " + solver.isUpperCase(charInput));
                 }
-                case 4 -> { // Делитель
+                case 4 -> {
                     System.out.print("Введите два числа (a b): ");
-                    int a = scanner.nextInt();
-                    int b = scanner.nextInt();
+                    int a = solver.inputInt(scanner);
+                    int b = solver.inputInt(scanner);
                     System.out.println("Делитель: " + solver.isDivisor(a, b));
                 }
                 case 5 -> { // Сумма разрядов
-                    System.out.print("Введите два числа (a b): ");
-                    int a1 = scanner.nextInt();
-                    int b1 = scanner.nextInt();
-                    System.out.println("Сумма разрядов: " + solver.lastNumSum(a1, b1));
+                    int result;  // Начальное значение для последовательной суммы
+                    int nextNumber;
+
+                    // Запрашиваем первое число
+                    System.out.print("Введите первое число: ");
+                    result = solver.inputInt(scanner);
+
+                    // Последовательно запрашиваем следующие 4 числа и суммируем с предыдущим результатом
+                    for (int i = 1; i < 5; i++) {
+                        System.out.print("Введите следующее число: ");
+                        nextNumber = solver.inputInt(scanner);
+                        result = solver.lastNumSum(result, nextNumber);  // Считаем сумму последних цифр и обновляем результат
+                        System.out.println("Промежуточный результат после сложения " + i + "-го числа: " + result);
+                    }
+
+                    System.out.println("Результат последовательного сложения: " + result);
                 }
-                case 6 -> { // Безопасное деление
+                case 6 -> {
                     System.out.println("Введите первое число (x):");
-                    int x = scanner.nextInt();
+                    int x = solver.inputInt(scanner);
                     System.out.println("Введите второе число (y):");
-                    int y = scanner.nextInt();
+                    int y = solver.inputInt(scanner);
                     System.out.println("Результат безопасного деления: " + solver.safeDiv(x, y));
                 }
-                case 7 -> { // Сравнение чисел
+                case 7 -> {
                     System.out.print("Введите два числа (x y): ");
-                    int x1 = scanner.nextInt();
-                    int y1 = scanner.nextInt();
+                    int x1 = solver.inputInt(scanner);
+                    int y1 = solver.inputInt(scanner);
                     System.out.println("Сравнение: " + solver.makeDecision(x1, y1));
                 }
-                case 8 -> { // Проверка суммы трех чисел
+                case 8 -> {
                     System.out.print("Введите три числа (x y z): ");
-                    int x2 = scanner.nextInt();
-                    int y2 = scanner.nextInt();
-                    int z2 = scanner.nextInt();
+                    int x2 = solver.inputInt(scanner);
+                    int y2 = solver.inputInt(scanner);
+                    int z2 = solver.inputInt(scanner);
                     System.out.println("Сумма трех чисел: " + solver.sum3(x2, y2, z2));
                 }
-                case 9 -> { // Возраст
+                case 9 -> {
                     System.out.print("Введите возраст: ");
-                    int ageInput = scanner.nextInt();
+                    int ageInput = solver.inputInt(scanner);
                     System.out.println("Возраст: " + solver.age(ageInput));
                 }
-                case 10 -> { // Вывод дней недели
+                case 10 -> {
                     System.out.print("Введите день недели: ");
                     String day = scanner.next();
                     solver.printDays(day);
                 }
-                case 11 -> { // Числа наоборот
+                case 11 -> {
                     System.out.print("Введите число: ");
-                    int numReverse = scanner.nextInt();
+                    int numReverse = solver.inputInt(scanner);
                     System.out.println("Числа наоборот: " + solver.reverseListNums(numReverse));
                 }
-                case 12 -> { // Степень числа
+                case 12 -> {
                     System.out.print("Введите число (x) и степень (y): ");
-                    int x3 = scanner.nextInt();
-                    int y3 = scanner.nextInt();
+                    int x3 = solver.inputInt(scanner);
+                    int y3 = solver.inputInt(scanner);
                     System.out.println("Результат: " + solver.pow(x3, y3));
                 }
-                case 13 -> { // Одинаковость цифр
+                case 13 -> {
                     System.out.print("Введите число: ");
-                    int numEqual = scanner.nextInt();
+                    int numEqual = solver.inputInt(scanner);
                     System.out.println("Одинаковость: " + solver.equalNum(numEqual));
                 }
-                case 14 -> { // Левый треугольник
+                case 14 -> {
                     System.out.print("Введите высоту треугольника: ");
-                    int h = scanner.nextInt();
+                    int h = solver.inputInt(scanner);
                     System.out.println("Левый треугольник: ");
                     solver.leftTriangle(h);
                 }
-                case 15 -> { // Угадайка
+                case 15 -> {
                     System.out.println("Игра 'Угадайка': ");
                     solver.guessGame();
                 }
-                case 16 -> { // Поиск последнего значения в массиве
-                    System.out.print("Введите размер массива: ");
-                    int size = scanner.nextInt();
-                    int[] arrFind = new int[size];
+                case 16 -> {
+                    int arrSize = solver.inputArraySize(scanner);
+                    int[] arrFind = new int[arrSize];
                     System.out.print("Введите элементы массива: ");
-                    for (int i = 0; i < size; i++) {
-                        arrFind[i] = scanner.nextInt();
+                    for (int i = 0; i < arrSize; i++) {
+                        arrFind[i] = solver.inputInt(scanner);
                     }
                     System.out.print("Введите число для поиска: ");
-                    int searchNum = scanner.nextInt();
+                    int searchNum = solver.inputInt(scanner);
                     System.out.println("Последнее вхождение: " + solver.findLast(arrFind, searchNum));
                 }
-                case 17 -> { // Добавление в массив
-                    System.out.print("Введите размер массива: ");
-                    int arrSize = scanner.nextInt();
+                case 17 -> {
+                    int arrSize = solver.inputArraySize(scanner);
                     int[] arrAdd = new int[arrSize];
                     System.out.print("Введите элементы массива: ");
                     for (int i = 0; i < arrSize; i++) {
-                        arrAdd[i] = scanner.nextInt();
+                        arrAdd[i] = solver.inputInt(scanner);
                     }
                     System.out.print("Введите число для добавления: ");
-                    int addNum = scanner.nextInt();
+                    int addNum = solver.inputInt(scanner);
                     System.out.print("Введите позицию для добавления: ");
-                    int pos = scanner.nextInt();
+                    int pos = solver.inputInt(scanner);
                     int[] newArr = solver.add(arrAdd, addNum, pos);
-                    System.out.print("Массив после добавления: ");
-                    for (int num : newArr) {
-                        System.out.print(num + " ");
+                    // Проверка на null перед выводом массива
+                    if (newArr != null) {
+                        System.out.print("Массив после добавления: ");
+                        for (int num : newArr) {
+                            System.out.print(num + " ");
+                        }
+                        System.out.println();
                     }
-                    System.out.println();
                 }
-                case 18 -> { // Реверс массива
-                    System.out.print("Введите размер массива: ");
-                    int revSize = scanner.nextInt();
+                case 18 -> {
+                    int revSize = solver.inputArraySize(scanner);
                     int[] arrRev = new int[revSize];
                     System.out.print("Введите элементы массива: ");
                     for (int i = 0; i < revSize; i++) {
-                        arrRev[i] = scanner.nextInt();
+                        arrRev[i] = solver.inputInt(scanner);
                     }
                     solver.reverse(arrRev);
-                    System.out.print("Реверсированный массив: ");
+                    System.out.print("Массив наоборот: ");
                     for (int num : arrRev) {
                         System.out.print(num + " ");
                     }
                     System.out.println();
                 }
-                case 19 -> { // Объединение массивов
-                    System.out.print("Введите размер первого массива: ");
-                    int size1 = scanner.nextInt();
+                case 19 -> {
+                    int size1 = solver.inputArraySize(scanner);
                     int[] arr1 = new int[size1];
                     System.out.print("Введите элементы первого массива: ");
                     for (int i = 0; i < size1; i++) {
-                        arr1[i] = scanner.nextInt();
+                        arr1[i] = solver.inputInt(scanner);
                     }
-                    System.out.print("Введите размер второго массива: ");
-                    int size2 = scanner.nextInt();
+                    int size2 = solver.inputArraySize(scanner);
                     int[] arr2 = new int[size2];
                     System.out.print("Введите элементы второго массива: ");
                     for (int i = 0; i < size2; i++) {
-                        arr2[i] = scanner.nextInt();
+                        arr2[i] = solver.inputInt(scanner);
                     }
                     int[] concatenated = solver.concat(arr1, arr2);
                     System.out.print("Объединенный массив: ");
@@ -413,13 +473,12 @@ public class Uniq {
                     }
                     System.out.println();
                 }
-                case 20 -> { // Удалить негатив
-                    System.out.print("Введите размер массива: ");
-                    int negSize = scanner.nextInt();
-                    int[] arrNeg = new int[negSize];
+                case 20 -> {
+                    int arrSize = solver.inputArraySize(scanner);
+                    int[] arrNeg = new int[arrSize];
                     System.out.print("Введите элементы массива: ");
-                    for (int i = 0; i < negSize; i++) {
-                        arrNeg[i] = scanner.nextInt();
+                    for (int i = 0; i < arrSize; i++) {
+                        arrNeg[i] = solver.inputInt(scanner);
                     }
                     int[] positiveArr = solver.deleteNegative(arrNeg);
                     System.out.print("Массив без отрицательных чисел: ");
